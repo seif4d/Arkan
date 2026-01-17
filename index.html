@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>أركان للأثاث | Arkan Furniture</title>
+    <!-- خط تجوال العربي -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <!-- مكتبة الأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- المتغيرات والألوان --- */
+        :root {
+            --primary: #0F172A;     /* كحلي غامق (فخامة) */
+            --accent: #C5A059;      /* ذهبي مطفي (رقي) */
+            --bg: #F8F9FA;          /* خلفية فاتحة */
+            --surface: #FFFFFF;     /* كروت */
+            --text-main: #1E293B;
+            --text-sub: #64748B;
+            --whatsapp: #25D366;
+            --call: #3B82F6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            -webkit-tap-highlight-color: transparent; /* إزالة لون الضغط في الجوال */
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding-bottom: 80px; /* مساحة للشريط السفلي */
+        }
+
+        a { text-decoration: none; color: inherit; }
+        
+        /* --- الهيدر والقائمة --- */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 5%;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .menu-btn {
+            font-size: 1.5rem;
+            color: var(--primary);
+            cursor: pointer;
+            display: none; /* يظهر فقط في الجوال */
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-menu a {
+            font-weight: 600;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .nav-menu a:hover { color: var(--accent); }
+
+        /* قائمة الجوال الجانبية */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            right: -100%; /* مخفية خارج الشاشة */
+            width: 80%;
+            height: 100vh;
+            background: var(--surface);
+            z-index: 1001;
+            padding: 20px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mobile-nav.active { right: 0; }
+        
+        .mobile-nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .close-btn { font-size: 1.5rem; cursor: pointer; color: #ff4757; }
+        
+        .mobile-link {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .mobile-link:active { background: #f0f0f0; }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: none;
+        }
+        .overlay.active { display: block; }
+
+        /* --- القسم الرئيسي (Hero) --- */
+        .hero {
+            height: 85vh; /* مناسب لشاشات الجوال */
+            background: linear-gradient(180deg, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.8) 100%), 
+                        url('https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            line-height: 1.3;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-badge {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        /* --- المميزات (أيقونات سريعة) --- */
+        .features-strip {
+            background: var(--surface);
+            padding: 20px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-top: -30px;
+            margin-left: 5%;
+            margin-right: 5%;
+            border-radius: 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        .feature-item span {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* --- المنتجات (نظام السحب Swipe) --- */
+        .products-section { padding: 40px 0; }
+        
+        .section-header {
+            padding: 0 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .section-header h2 { font-size: 1.8rem; color: var(--primary); }
+        .swipe-hint { font-size: 0.8rem; color: var(--text-sub); }
+
+        /* حاوية السحب الأفقي */
+        .scrolling-wrapper {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 20px 40px; /* مساحة للظل */
+            gap: 20px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch; /* نعومة السحب في iOS */
+        }
+
+        /* إخفاء شريط التمرير */
+        .scrolling-wrapper::-webkit-scrollbar { display: none; }
+
+        .product-card {
+            flex: 0 0 85%; /* الكارت يأخذ 85% من شاشة الجوال */
+            max-width: 350px;
+            background: var(--surface);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            scroll-snap-align: center;
+            position: relative;
+        }
+
+        .prod-img {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .prod-details { padding: 15px; }
+
+        .prod-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .prod-price {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        
+        .prod-old-price {
+            font-size: 0.9rem;
+            text-decoration: line-through;
+            color: #94a3b8;
+            margin-right: 10px;
+        }
+
+        .order-btn {
+            display: block;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        
+        .order-btn:active { transform: scale(0.98); }
+
+        /* --- قسم الضمان (الثقة) --- */
+        .trust-section {
+            background: #E2E8F0;
+            padding: 30px 20px;
+            text-align: center;
+            margin: 20px;
+            border-radius: 20px;
+        }
+        .trust-section h3 { margin-bottom: 10px; color: var(--primary); }
+        .trust-section p { font-size: 0.95rem; color: var(--text-sub); }
+
+        /* --- الشريط السفلي الثابت (للجوال) --- */
+        .sticky-bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 10px 15px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            z-index: 9999;
+            display: flex;
+            gap: 10px;
+            padding-bottom: max(10px, env(safe-area-inset-bottom)); /* للأيفون X وما فوق */
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-whatsapp { background: var(--whatsapp); color: white; }
+        .btn-call { background: var(--primary); color: white; }
+
+        /* --- ميديا كويري (تعديلات حسب الشاشة) --- */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; } /* إخفاء القائمة العادية */
+            .menu-btn { display: block; } /* إظهار زر البرجر */
+            .hero h1 { font-size: 2rem; }
+            .product-card { flex: 0 0 85%; } /* في الجوال الكارت عريض */
+        }
+
+        @media (min-width: 769px) {
+            .mobile-nav { display: none; }
+            .sticky-bottom-bar { display: none; } /* إخفاء الشريط السفلي في الكمبيوتر */
+            .scrolling-wrapper {
+                flex-wrap: wrap;
+                justify-content: center;
+                overflow: visible;
+            }
+            .product-card { flex: 0 0 300px; margin-bottom: 20px; }
+            body { padding-bottom: 0; }
+        }
+
+        /* أنيميشن بسيط */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-5px);}
+            60% {transform: translateY(-3px);}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر -->
+    <header>
+        <div class="logo">
+            <i class="fas fa-couch"></i> أركان <span>Arkan</span>
+        </div>
+        
+        <!-- روابط الكمبيوتر -->
+        <nav class="nav-menu">
+            <a href="#home">الرئيسية</a>
+            <a href="#products">العروض</a>
+            <a href="#features">لماذا أركان؟</a>
+        </nav>
+
+        <!-- زر القائمة للجوال -->
+        <div class="menu-btn" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية للجوال -->
+    <div class="overlay" onclick="toggleMenu()" id="overlay"></div>
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <div class="logo"><i class="fas fa-couch"></i> أركان</div>
+            <div class="close-btn" onclick="toggleMenu()"><i class="fas fa-times"></i></div>
+        </div>
+        <a href="#home" class="mobile-link" onclick="toggleMenu()"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#products" class="mobile-link" onclick="toggleMenu()"><i class="fas fa-tag"></i> العروض الحصرية</a>
+        <a href="#features" class="mobile-link" onclick="toggleMenu()"><i class="fas fa-star"></i> المميزات</a>
+        <a href="https://wa.me/966XXXXXXXXX" class="mobile-link" style="color: var(--whatsapp);"><i class="fab fa-whatsapp"></i> تواصل واتساب</a>
+    </div>
+
+    <!-- القسم الرئيسي -->
+    <section class="hero" id="home">
+        <div>
+            <div class="hero-badge">خصومات الافتتاح بالرياض 🔥</div>
+            <h1>فخامة منزلك <br><span style="color: var(--accent);">تبدأ من هنا</span></h1>
+            <p>غرف نوم مودرن بتصاميم عصرية وخشب وطني مضمون. الدفع عند الاستلام.</p>
+            <!-- أزرار تظهر فقط في الكمبيوتر (لأن الجوال عنده الشريط السفلي) -->
+            <div style="display: none;" class="desktop-cta">
+                <a href="#products" style="background: var(--accent); color: var(--primary); padding: 10px 30px; border-radius: 50px; font-weight: bold;">تصفح العروض</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- شريط المميزات العائم -->
+    <div class="features-strip" id="features">
+        <div class="feature-item">
+            <i class="fas fa-truck"></i>
+            <span>توصيل مجاني</span>
+        </div>
+        <div class="feature-item">
+            <i class="fas fa-hammer"></i>
+            <span>تركيب فوري</span>
+        </div>
+        <div class="feature-item">
+            <i class="fas fa-shield-alt"></i>
+            <span>ضمان 5 سنوات</span>
+        </div>
+    </div>
+
+    <!-- قسم المنتجات (سحب أفقي) -->
+    <section class="products-section" id="products">
+        <div class="section-header">
+            <h2>🔥 عروض ساخنة</h2>
+            <span class="swipe-hint">اسحب لليسار <i class="fas fa-arrow-left"></i></span>
+        </div>
+
+        <div class="scrolling-wrapper">
+            
+            <!-- منتج 1 -->
+            <div class="product-card">
+                <div class="prod-img" style="background-image: url('https://images.unsplash.com/photo-1505693416388-50391d2581c0?q=80&w=600');"></div>
+                <div class="prod-details">
+                    <div class="prod-title">غرفة نوم "سُكون"</div>
+                    <div style="color: #64748B; font-size: 0.9rem; margin-bottom: 5px;">سرير 200x200 + دولاب + تسريحة</div>
+                    <div>
+                        <span class="prod-price">3,499 ﷼</span>
+                        <span class="prod-old-price">4,500 ﷼</span>
+                    </div>
+                    <a href="https://wa.me/966XXXXXXXXX?text=أرغب%20في%20طلب%20غرفة%20سكون" class="order-btn">
+                        أطلبها الآن واتساب <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- منتج 2 -->
+            <div class="product-card">
+                <div class="prod-img" style="background-image: url('https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?q=80&w=600');"></div>
+                <div class="prod-details">
+                    <div class="prod-title">طقم كنب "مودرن"</div>
+                    <div style="color: #64748B; font-size: 0.9rem; margin-bottom: 5px;">يكفي 7 أشخاص - قماش فاخر</div>
+                    <div>
+                        <span class="prod-price">2,850 ﷼</span>
+                        <span class="prod-old-price">3,600 ﷼</span>
+                    </div>
+                    <a href="https://wa.me/966XXXXXXXXX?text=أرغب%20في%20طلب%20كنب%20مودرن" class="order-btn">
+                        أطلبها الآن واتساب <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- منتج 3 -->
+            <div class="product-card">
+                <div class="prod-img" style="background-image: url('https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?q=80&w=600');"></div>
+                <div class="prod-details">
+                    <div class="prod-title">غرفة شبابية "سمارت"</div>
+                    <div style="color: #64748B; font-size: 0.9rem; margin-bottom: 5px;">تصميم ذكي للمساحات الصغيرة</div>
+                    <div>
+                        <span class="prod-price">1,999 ﷼</span>
+                        <span class="prod-old-price">2,500 ﷼</span>
+                    </div>
+                    <a href="https://wa.me/966XXXXXXXXX?text=أرغب%20في%20طلب%20غرفة%20سمارت" class="order-btn">
+                        أطلبها الآن واتساب <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+
+             <!-- منتج 4 -->
+             <div class="product-card">
+                <div class="prod-img" style="background-image: url('https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=600');"></div>
+                <div class="prod-details">
+                    <div class="prod-title">غرفة نوم "ملكي"</div>
+                    <div style="color: #64748B; font-size: 0.9rem; margin-bottom: 5px;">خشب زان وتفاصيل ذهبية</div>
+                    <div>
+                        <span class="prod-price">5,200 ﷼</span>
+                        <span class="prod-old-price">6,800 ﷼</span>
+                    </div>
+                    <a href="https://wa.me/966XXXXXXXXX?text=أرغب%20في%20طلب%20غرفة%20ملكي" class="order-btn">
+                        أطلبها الآن واتساب <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- قسم الثقة -->
+    <div class="trust-section">
+        <h3><i class="fas fa-handshake"></i> ليش تشتري من أركان؟</h3>
+        <p>لأننا أبناء الصنعة، خشبنا وطني أصلي، ونضمن لك الجودة بالفاتورة. زورنا في المعرض وتأكد بنفسك!</p>
+    </div>
+
+    <!-- فراغ في النهاية عشان الشريط السفلي ميغطيش المحتوى -->
+    <div style="height: 50px;"></div>
+
+    <!-- الشريط السفلي الثابت (للجوال فقط) 🚀 -->
+    <div class="sticky-bottom-bar">
+        <a href="tel:966XXXXXXXXX" class="action-btn btn-call">
+            <i class="fas fa-phone-alt"></i> اتصال
+        </a>
+        <a href="https://wa.me/966XXXXXXXXX" class="action-btn btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> واتساب
+        </a>
+    </div>
+
+    <script>
+        // كود تشغيل القائمة الجانبية
+        function toggleMenu() {
+            const nav = document.getElementById('mobileNav');
+            const overlay = document.getElementById('overlay');
+            
+            if (nav.classList.contains('active')) {
+                nav.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                nav.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        // إغلاق القائمة عند الضغط على أي رابط
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu();
+            });
+        });
+    </script>
+
+</body>
+</html>
